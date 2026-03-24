@@ -18,26 +18,26 @@
   },
   "hero": {
 
-    "title": "Transformación Digital para tu Empresa",
-    "subtitle": "Automatizamos tus procesos empresariales y potenciamos tu negocio con el uso de Inteligencia Artificial, y con soluciones tecnológicas innovadoras.",
-    "demo": "Casos Reales",
+    "title": "Si tu operación depende de papel y procesos manuales, estás perdiendo dinero",
+    "subtitle": "Organizamos tu operación en un solo lugar para quede dejes de perder tiempo, cometer errores y trabajar sin control.",
+    "demo": "Cómo ordenar mi operación",
 
-    "automation": "Automatización",
-    "efficiency": "Más eficiencia",
-    "security": "Hiperpersonalización",
-    "activeTime": "Sin límites",
-    "savings": "Inteligencia Artificial",
-    "costs": "Procesos inteligentes",
-    "limits": "En tiempo real",
-    "scalability": "Dashboards"
+    "automation": "Menos papel",
+    "efficiency": "Menos errores",
+    "security": "Todo en un solo lugar",
+    "activeTime": "Más control",
+    "savings": "Procesos claros",
+    "costs": "Menos tiempo perdido",
+    "limits": "Adaptado a tus necesidades",
+    "scalability": "Personalización"
   },
   "about": {
 
     "title": "¿Quiénes Somos?",
-    "subtitle": "Somos un emprendimiento latinoamericano comprometido con la transformación de procesos digitales de empresas a nivel mundial.",
+    "subtitle": "Empezamos organizando un Excel que era un desastre, terminamos resolviendo cómo operan clínicas completas .",
     "story": {
       "title": "Nuestra Historia",
-      "paragraph1": "Todo comenzó con un favor entre panas. Un amigo nos pidió ayuda con un Excel que se había convertido en un dolor de cabeza. Empezamos creando fórmulas, optimizando su formato y organizando datos para que fuera más fácil de manejar.",
+      "paragraph1": "Todo comenzó con un favor entre panas. Un amigo nos pidió ayuda con un Excel que se había convertido en un dolor de cabeza. Era información dispersa, errores constantes y tiempo perdido.",
       "paragraph2": "Lo que parecía un pequeño arreglo se convirtió en algo mucho más grande: le hicimos una página web, comenzamos a automatizar procesos y a ahorrarle horas de trabajo. El resultado fue una web app que cambió la manera en que gestionaba su negocio.",
       "paragraph3": "De ser solo dos personas curiosas y autodidactas, pasamos a formar un equipo de profesionales en distintas áreas. Nos enseñamos mutuamente, compartimos conocimientos y mantenemos viva esa esencia colaborativa que nos llevó a donde estamos hoy."
 
@@ -61,7 +61,7 @@
     "sectionTitle": "Reconocimientos",
     "title": "Hackathon IESA",
     "institution": "Instituto de Estudios Superiores de Administración",
-    "description": "Reconocidos por nuestra innovación en salud digital, elevando la calidad y eficiencia de clínicas y laboratorios en Venezuela.",
+    "description": "Reconocidos por mejorar cómo operan las clínicas en Venezuela.",
     "position": "1°",
     "positionLabel": "Lugar",
     "year": "2025",

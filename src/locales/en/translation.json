@@ -17,24 +17,24 @@
     }
   },
   "hero": {
-    "title": "Digital Transformation for Your Business",
-    "subtitle": "We automate your business processes and enhance your business with the use of Artificial Intelligence, and with innovative technological solutions.",
+    "title": "If your operation depends on paper and manual processes, you're losing money",
+    "subtitle": "Organize your operation in a single place to stop losing time, making mistakes and working without control.",
     "demo": "Real Cases",
-    "automation": "Automation",
-    "efficiency": "More efficiency",
-    "security": "Hyperpersonalization",
-    "activeTime": "Limitless",
-    "savings": "Artificial Intelligence",
-    "costs": "Intelligent processes",
-    "limits": "In real time",
-    "scalability": "Dashboards"
+    "automation": "Less paper",
+    "efficiency": "Less errors",
+    "security": "All in one place",
+    "activeTime": "More control",
+    "savings": "Clear processes",
+    "costs": "Less lost time",
+    "limits": "Adapted to your needs",
+    "scalability": "Personalization"
   },
   "about": {
     "title": "About Solware",
-    "subtitle": "We are a Latin American startup committed to transforming digital processes for companies worldwide.",
+    "subtitle": "We started organizing an Excel that was a disaster, ended up solving how clinics operate completely.",
     "story": {
       "title": "Our Story",
-      "paragraph1": "It all started with a favor between friends. A buddy asked us for help with an Excel spreadsheet that had become a real headache. We began creating formulas, optimizing its format, and organizing data to make it easier to manage.",
+      "paragraph1": "It all started with a favor between friends. A buddy asked us for help with an Excel spreadsheet that had become a real headache. It was scattered information, constant errors, and lost time.",
       "paragraph2": "What seemed like a small fix turned into something much bigger: we built him a website, started automating processes, and saved him hours of work. The result was a web app that changed the way he managed his business.",
       "paragraph3": "From being just two curious, self-taught people, we grew into a team of professionals from different areas. We teach each other, share knowledge, and keep alive that collaborative spirit that brought us to where we are today."
     },
@@ -57,7 +57,7 @@
     "sectionTitle": "Awards",
     "title": "IESA Hackathon",
     "institution": "Institute of Higher Studies in Administration",
-    "description": "Recognized for our innovation in digital health, elevating the quality and efficiency of clinics and laboratories in Venezuela.",
+    "description": "Recognized for improving how clinics operate in Venezuela.",
     "position": "1st",
     "positionLabel": "Place",
     "year": "2025",

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Zap, Play, Bot, Paintbrush, LayoutDashboard } from 'lucide-react'
+import { Hourglass, Play, LayoutDashboard, BookCopy, Paintbrush } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Particles from './Particles'
-import DecryptedText from './effectsComponents/DecryptedText'
+import TextType from './effectsComponents/TextType'
 import { useTranslation } from 'react-i18next'
 
 export default function Hero() {
@@ -18,7 +18,7 @@ export default function Hero() {
 		// Simulate preload animation ending
 		const preloadTimer = setTimeout(() => {
 			setIsPreloadFinished(true)
-		}, 3000) // Adjust the time to match your preload animation duration
+		}, 3500) // Adjust the time to match your preload animation duration
 
 		return () => clearTimeout(preloadTimer)
 	}, [])
@@ -77,16 +77,15 @@ export default function Hero() {
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 					<div className="text-center lg:text-left">
 						<div className="min-h-[120px] sm:min-h-[140px] lg:min-h-[180px] xl:min-h-[220px] flex items-start">
-							<DecryptedText
+							<TextType
 								key={`hero-title-${i18n.language}-${animationKey}`} // Fuerza re-render cuando cambia el idioma o la animación
 								text={t('hero.title')}
-								speed={50}
+								typingSpeed={50}
 								className="revealed text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white dark:text-blue-100 \
-	              mb-12 sm:mb-15 lg:mb-24 animate-fade-in leading-tight sm:leading-tight w-full"
-								animateOn={isPreloadFinished ? 'view' : 'hover'}
-								revealDirection="start"
-								sequential={true}
-								onRevealEnd={() => setCanStartAutoHover(true)}
+	              mb-1 sm:mb-1.5 lg:mb-2 animate-fade-in leading-tight sm:leading-tight w-full"
+								startOnVisible={isPreloadFinished}
+								loop={true}
+								onSentenceComplete={() => setCanStartAutoHover(true)}
 							/>
 						</div>
 
@@ -109,22 +108,22 @@ export default function Hero() {
 								<div className="grid grid-cols-2 gap-3">
 									{[
 										{
-											icon: <Zap className="h-5 w-5" />,
+											icon: <BookCopy className="h-5 w-5" />,
 											title: t('hero.automation'),
 											label: t('hero.efficiency'),
 										},
 										{
-											icon: <Paintbrush className="h-5 w-5" />,
+											icon: <LayoutDashboard className="h-5 w-5" />,
 											title: t('hero.security'),
 											label: t('hero.activeTime'),
 										},
 										{
-											icon: <Bot className="h-5 w-5" />,
+											icon: <Hourglass className="h-5 w-5" />,
 											title: t('hero.savings'),
 											label: t('hero.costs'),
 										},
 										{
-											icon: <LayoutDashboard className="h-5 w-5" />,
+											icon: <Paintbrush className="h-5 w-5" />,
 											title: t('hero.scalability'),
 											label: t('hero.limits'),
 										},
@@ -186,15 +185,10 @@ export default function Hero() {
 						</div>
 
 						<div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in-delay-2">
-							<a
-								href="https://calendar.app.google/EYruMbWpJwJ82gHr6"
-								target="_blank"
-								className="px-8 py-4 bg-white text-blue-600 rounded-full font-semibold 
-                  hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-2xl
-                  transform hover:-translate-y-1 hover:scale-105 active:scale-95"
-							>
-								{t('header.consulta')}
-							</a>
+							
+							
+						
+							
 
 							<Link
 								to="/demo"
@@ -226,7 +220,7 @@ export default function Hero() {
 							<div className="grid grid-cols-2 gap-4 sm:gap-6">
 								{[
 									{
-										icon: <Zap className="h-6 w-6 sm:h-8 sm:w-8" />,
+										icon: <BookCopy className="h-6 w-6 sm:h-8 sm:w-8" />,
 										title: t('hero.automation'),
 										label: t('hero.efficiency'),
 										hoverColor: 'group-hover:text-yellow-300 dark:group-hover:text-yellow-300',
@@ -235,7 +229,7 @@ export default function Hero() {
 										cardClass: 'card-amber',
 									},
 									{
-										icon: <Paintbrush className="h-6 w-6 sm:h-8 sm:w-8" />,
+										icon: <LayoutDashboard className="h-6 w-6 sm:h-8 sm:w-8" />,
 										title: t('hero.security'),
 										label: t('hero.activeTime'),
 										hoverColor: 'group-hover:text-blue-300 dark:group-hover:text-blue-300',
@@ -244,7 +238,7 @@ export default function Hero() {
 										cardClass: 'card-blue',
 									},
 									{
-										icon: <Bot className="h-6 w-6 sm:h-8 sm:w-8" />,
+										icon: <Hourglass className="h-6 w-6 sm:h-8 sm:w-8" />,
 										title: t('hero.savings'),
 										label: t('hero.costs'),
 										hoverColor: 'group-hover:text-purple-300 dark:group-hover:text-purple-300',
@@ -253,7 +247,7 @@ export default function Hero() {
 										cardClass: 'card-purple',
 									},
 									{
-										icon: <LayoutDashboard className="h-6 w-6 sm:h-8 sm:w-8" />,
+										icon: <Paintbrush className="h-6 w-6 sm:h-8 sm:w-8" />,
 										title: t('hero.scalability'),
 										label: t('hero.limits'),
 										hoverColor: 'group-hover:text-green-300 dark:group-hover:text-green-300',
