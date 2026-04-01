@@ -73,7 +73,7 @@ export default function Hero() {
 			</div>
 
 			{/* Hero content */}
-			<div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-32">
+			<div className="relative w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-32">
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 					<div className="text-center lg:text-left">
 						<div className="min-h-[120px] sm:min-h-[140px] lg:min-h-[180px] xl:min-h-[220px] flex items-start">
@@ -217,7 +217,7 @@ export default function Hero() {
 								!isManualHover && autoHoverIndex === 3 ? '!shadow-[0_0_50px_rgba(34,197,94,0.6)]' : ''
 							}`}
 						>
-							<div className="grid grid-cols-2 gap-4 sm:gap-6">
+							<div className="grid grid-cols-2 gap-6 sm:gap-8">
 								{[
 									{
 										icon: <BookCopy className="h-6 w-6 sm:h-8 sm:w-8" />,
@@ -265,7 +265,7 @@ export default function Hero() {
 											key={index}
 											onMouseEnter={() => handleMouseEnter(index)}
 											onMouseLeave={handleMouseLeave}
-											className={`${stat.cardClass} group text-center p-3 sm:p-4 rounded-xl bg-white/5 dark:bg-blue-900/30 
+											className={`${stat.cardClass} group text-center p-10 sm:p-10 rounded-xl bg-white/5 dark:bg-blue-900/30 
                       transition-all duration-300
                       ${isActiveHover ? 
                         `bg-white/20 dark:bg-blue-700/60 -translate-y-2 shadow-xl scale-105 ${
