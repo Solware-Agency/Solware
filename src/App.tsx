@@ -1,9 +1,8 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Services from './components/Services'
 import WorkProcess from './components/WorkProcess'
-import Automation from './components/Automation'
 import ValuesMission from './components/ValuesMission'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
@@ -14,10 +13,8 @@ import AboutUs from './components/AboutUs'
 import Pricing from './components/Pricing'
 import CTA from './components/CTA'
 import SplashCursor from './components/effectsComponents/SplashCursor'
-import { Analytics } from '@vercel/analytics/react'
 
 function App() {
-	const [isLoading, setIsLoading] = useState(true)
 	const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 	const isScrollingRef = useRef(false)
 
@@ -42,10 +39,6 @@ function App() {
 	}, []) // Sin dependencias!
 
 	useEffect(() => {
-		const timer = setTimeout(() => {
-			setIsLoading(false)
-		}, 3000)
-
 		// Use requestAnimationFrame to throttle scroll events
 		let ticking = false
 		const scrollListener = () => {
@@ -61,7 +54,6 @@ function App() {
 		window.addEventListener('scroll', scrollListener, { passive: true })
 
 		return () => {
-			clearTimeout(timer)
 			if (scrollTimeoutRef.current) {
 				clearTimeout(scrollTimeoutRef.current)
 			}
@@ -87,11 +79,7 @@ function App() {
 	return (
 		<>
 			<Preloader />
-			<div
-				className={`min-h-screen bg-gray-50 dark:bg-dark transition-colors duration-300 ${
-					isLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'
-				}`}
-			>
+			<div className="min-h-screen bg-gray-50 dark:bg-dark transition-colors duration-300">
 				<SplashCursor />
 				<Header />
 				<main>
@@ -121,7 +109,6 @@ function App() {
 				<WhatsAppButton />
 				<ButtonMessageBot />
 			</div>
-			<Analytics debug={false} />
 		</>
 	)
 }

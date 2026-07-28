@@ -3,6 +3,8 @@ import { Mail, Phone, Send, ChevronDown, Instagram, CheckCircle, AlertCircle } f
 import { supabase } from '../lib/supabase'
 import BlurText from './effectsComponents/BlurText'
 import { useTranslation } from 'react-i18next'
+import { ExternalSiteLink } from './ExternalSiteLink'
+import { useRequestExternalNavigate } from '../context/ExternalNavigateContext'
 
 interface FormData {
 	name: string
@@ -31,6 +33,7 @@ interface CountryCode {
 
 const Contact: React.FC = () => {
 	const { t } = useTranslation()
+	const requestNavigate = useRequestExternalNavigate()
 	
 	// Country codes for all countries worldwide
 	const countryCodes: CountryCode[] = [
@@ -362,23 +365,25 @@ const Contact: React.FC = () => {
 					throw new Error(result.error || 'Error al enviar el email')
 				}
 
-				// Guardar en Supabase como backup
-				try {
-					const { error } = await supabase.from('contact_submissions').insert([
-						{
-							name: formData.name,
-							email: formData.email,
-							phone: `${formData.countryCode} ${formData.phone}`,
-							areas: formData.areas.map((id) => areasDeInteres.find((area) => area.id === id)?.label || id),
-							message: formData.message,
-						},
-					])
+				// Guardar en Supabase como backup (opcional en local sin .env)
+				if (supabase) {
+					try {
+						const { error } = await supabase.from('contact_submissions').insert([
+							{
+								name: formData.name,
+								email: formData.email,
+								phone: `${formData.countryCode} ${formData.phone}`,
+								areas: formData.areas.map((id) => areasDeInteres.find((area) => area.id === id)?.label || id),
+								message: formData.message,
+							},
+						])
 
-					if (error) {
-						console.error('Error al guardar en base de datos:', error)
+						if (error) {
+							console.error('Error al guardar en base de datos:', error)
+						}
+					} catch (dbError) {
+						console.error('Error al guardar en base de datos:', dbError)
 					}
-				} catch (dbError) {
-					console.error('Error al guardar en base de datos:', dbError)
 				}
 
 				setSubmitStatus('success')
@@ -429,18 +434,20 @@ const Contact: React.FC = () => {
 
 	const openWhatsApp = useCallback(() => {
 		const message = encodeURIComponent(t('contact.form.whatsapp.message'))
-		window.open(`https://wa.me/584129974533?text=${message}`, '_blank')
-	}, [])
+		requestNavigate(`https://wa.me/584129974533?text=${message}`)
+	}, [t, requestNavigate])
 
 	const handleFaqClick = useCallback((index: number) => {
 		setOpenFaqIndex((prev) => (prev === index ? null : index))
 	}, [])
 
 	return (
-		<section className="py-20 pb-12 bg-gray-50 dark:bg-gray-900 transition-colors duration-300" id="contacto">
+		<section className="py-20 pb-12 bg-gray-50 dark:bg-gray-900 transition-colors duration-300" id="contacto" aria-labelledby="contact-heading">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="text-center max-w-3xl mx-auto mb-16">
 					<BlurText
+						as="h2"
+						id="contact-heading"
 						text={t('contact.title')}
 						delay={150}
 						animateBy="words"
@@ -466,16 +473,19 @@ const Contact: React.FC = () => {
 
 						<form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
 							<div>
-								<label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+								<label htmlFor="contact-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
 									{t('contact.form.name.title')}
 								</label>
 								<input
 									type="text"
-									id="name"
+									id="contact-name"
 									name="name"
+									autoComplete="name"
 									value={formData.name}
 									onChange={handleChange}
 									placeholder={t('contact.form.name.placeholder')}
+									aria-invalid={formErrors.name ? true : undefined}
+									aria-describedby={formErrors.name ? 'contact-name-error' : undefined}
 									className={`mt-1 block w-full rounded-md border px-3 py-2 text-gray-900 dark:text-white 
 									shadow-sm focus:ring-2 focus:ring-offset-0 transition-colors duration-300 ${
 										formErrors.name
@@ -484,21 +494,26 @@ const Contact: React.FC = () => {
 									}`}
 								/>
 								{formErrors.name && (
-									<p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.name}</p>
+									<p id="contact-name-error" role="alert" className="mt-1 text-sm text-red-600 dark:text-red-400">
+										{formErrors.name}
+									</p>
 								)}
 							</div>
 
 							<div>
-								<label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+								<label htmlFor="contact-email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
 									{t('contact.form.email.title')}
 								</label>
 								<input
-									type="text"
-									id="email"
+									type="email"
+									id="contact-email"
 									name="email"
+									autoComplete="email"
 									value={formData.email}
 									onChange={handleChange}
 									placeholder={t('contact.form.email.placeholder')}
+									aria-invalid={formErrors.email ? true : undefined}
+									aria-describedby={formErrors.email ? 'contact-email-error' : undefined}
 									className={`mt-1 block w-full rounded-md border px-3 py-2 text-gray-900 dark:text-white 
 									shadow-sm focus:ring-2 focus:ring-offset-0 transition-colors duration-300 ${
 										formErrors.email
@@ -507,19 +522,30 @@ const Contact: React.FC = () => {
 									}`}
 								/>
 								{formErrors.email && (
-									<p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.email}</p>
+									<p id="contact-email-error" role="alert" className="mt-1 text-sm text-red-600 dark:text-red-400">
+										{formErrors.email}
+									</p>
 								)}
 							</div>
 
 							<div>
-								<label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+								<span id="contact-phone-label" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
 									{t('contact.form.phone.title')}
-								</label>
-								<div className="mt-1 flex space-x-2">
-									{/* Country Code Dropdown with Search */}
+								</span>
+								<div
+									role="group"
+									aria-labelledby="contact-phone-label"
+									className="mt-1 flex space-x-2"
+								>
 									<div className="relative w-32 country-dropdown">
-										<div
-											className={`block w-full rounded-md border px-3 py-2 text-gray-900 dark:text-white text-sm
+										<button
+											type="button"
+											id="contact-country-code"
+											aria-haspopup="listbox"
+											aria-expanded={isDropdownOpen}
+											aria-controls={isDropdownOpen ? 'contact-country-listbox' : undefined}
+											aria-label={`${t('contact.form.phone.title')}: ${getSelectedCountry().country}, ${getSelectedCountry().code}`}
+											className={`block w-full rounded-md border px-3 py-2 text-gray-900 dark:text-white text-sm text-left
 											shadow-sm cursor-pointer transition-colors duration-300 ${
 												formErrors.phone
 													? 'border-red-500 dark:border-red-400 bg-red-50 dark:bg-red-900/20'
@@ -527,20 +553,23 @@ const Contact: React.FC = () => {
 											}`}
 											onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 										>
-											<div className="flex items-center justify-between">
+											<span className="flex items-center justify-between">
 												<span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
 													{getSelectedCountry().countryCode}
 												</span>
 												<span className="text-sm">{getSelectedCountry().code}</span>
-											</div>
-										</div>
-										
+											</span>
+										</button>
+
 										{isDropdownOpen && (
 											<div className="absolute z-50 mt-1 w-80 max-h-64 overflow-hidden bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg">
-												{/* Search Input */}
 												<div className="p-2 border-b border-gray-200 dark:border-gray-700">
+													<label htmlFor="contact-country-search" className="sr-only">
+														Buscar país
+													</label>
 													<input
-														type="text"
+														id="contact-country-search"
+														type="search"
 														placeholder="Buscar país..."
 														value={searchQuery}
 														onChange={(e) => handleSearchChange(e.target.value)}
@@ -548,44 +577,54 @@ const Contact: React.FC = () => {
 														onClick={(e) => e.stopPropagation()}
 													/>
 												</div>
-												
-												{/* Countries List */}
-												<div className="max-h-48 overflow-y-auto">
+
+												<div
+													id="contact-country-listbox"
+													role="listbox"
+													aria-label={t('contact.form.phone.title')}
+													className="max-h-48 overflow-y-auto"
+												>
 													{filteredCountries.map((country) => (
-														<div
+														<button
+															type="button"
 															key={`${country.code}-${country.countryCode}`}
-															className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center justify-between text-sm"
+															role="option"
+															aria-selected={formData.countryCode === country.code}
+															className="w-full px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center justify-between text-sm text-left"
 															onClick={() => handleCountrySelect(country)}
 														>
-															<div className="flex items-center space-x-2">
+															<span className="flex items-center space-x-2">
 																<span className="text-xs font-semibold text-blue-600 dark:text-blue-400 w-8">
 																	{country.countryCode}
 																</span>
 																<span className="text-gray-900 dark:text-white">
 																	{country.country}
 																</span>
-															</div>
+															</span>
 															<span className="text-gray-600 dark:text-gray-300">
 																{country.code}
 															</span>
-														</div>
+														</button>
 													))}
 													{filteredCountries.length === 0 && (
-														<div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+														<p className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
 															No se encontraron países
-														</div>
+														</p>
 													)}
 												</div>
 											</div>
 										)}
 									</div>
-									
-									{/* Phone Number Input */}
+
 									<input
 										type="tel"
-										id="phone"
+										id="contact-phone"
 										name="phone"
+										autoComplete="tel-national"
 										value={formData.phone}
+										aria-labelledby="contact-phone-label"
+										aria-invalid={formErrors.phone ? true : undefined}
+										aria-describedby={formErrors.phone ? 'contact-phone-error' : undefined}
 										onChange={(e) => {
 											// Solo permitir números en el onChange
 											const value = e.target.value.replace(/\D/g, '')
@@ -632,47 +671,58 @@ const Contact: React.FC = () => {
 									/>
 								</div>
 								{formErrors.phone && (
-									<p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.phone}</p>
+									<p id="contact-phone-error" role="alert" className="mt-1 text-sm text-red-600 dark:text-red-400">
+										{formErrors.phone}
+									</p>
 								)}
 							</div>
 
-							<div>
-								<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+							<fieldset className="min-w-0 border-0 p-0">
+								<legend className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 									{t('contact.form.areas.title')}
-								</label>
+								</legend>
 								<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-									{areasDeInteres.map((area) => (
-										<label
-											key={area.id}
-											className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all duration-200 ${
-												formData.areas.includes(area.id)
-													? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-													: 'border-gray-200 dark:border-gray-600 hover:border-blue-200 dark:hover:border-blue-700 hover:bg-blue-50/50 dark:hover:bg-blue-900/20'
-											}`}
-										>
-											<input
-												type="checkbox"
-												className="sr-only"
-												checked={formData.areas.includes(area.id)}
-												onChange={() => handleAreaChange(area.id)}
-											/>
-											<span className="text-sm">{area.label}</span>
-										</label>
-									))}
+									{areasDeInteres.map((area) => {
+										const areaInputId = `contact-area-${area.id}`
+										return (
+											<label
+												key={area.id}
+												htmlFor={areaInputId}
+												className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all duration-200 ${
+													formData.areas.includes(area.id)
+														? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+														: 'border-gray-200 dark:border-gray-600 hover:border-blue-200 dark:hover:border-blue-700 hover:bg-blue-50/50 dark:hover:bg-blue-900/20'
+												}`}
+											>
+												<input
+													type="checkbox"
+													id={areaInputId}
+													name="areas"
+													value={area.id}
+													className="sr-only"
+													checked={formData.areas.includes(area.id)}
+													onChange={() => handleAreaChange(area.id)}
+												/>
+												<span className="text-sm">{area.label}</span>
+											</label>
+										)
+									})}
 								</div>
-							</div>
+							</fieldset>
 
 							<div>
-								<label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+								<label htmlFor="contact-message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
 									{t('contact.form.message.title')}
 								</label>
 								<textarea
-									id="message"
+									id="contact-message"
 									name="message"
 									value={formData.message}
 									onChange={handleChange}
 									placeholder={t('contact.form.message.placeholder')}
 									rows={4}
+									aria-invalid={formErrors.message ? true : undefined}
+									aria-describedby={formErrors.message ? 'contact-message-error' : undefined}
 									className={`mt-1 block w-full rounded-md border px-3 py-2 text-gray-900 dark:text-white 
 									shadow-sm focus:ring-2 focus:ring-offset-0 transition-colors duration-300 ${
 										formErrors.message
@@ -681,7 +731,9 @@ const Contact: React.FC = () => {
 									}`}
 								/>
 								{formErrors.message && (
-									<p className="mt-1 text-sm text-red-600 dark:text-red-400">{formErrors.message}</p>
+									<p id="contact-message-error" role="alert" className="mt-1 text-sm text-red-600 dark:text-red-400">
+										{formErrors.message}
+									</p>
 								)}
 							</div>
 
@@ -760,15 +812,13 @@ const Contact: React.FC = () => {
 
 										<div className="flex items-center">
 											<Instagram className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-											<a
+											<ExternalSiteLink
 												href="https://www.instagram.com/solware_?igsh=MTg4OTdwM3k3d2o4cA=="
-												target="_blank"
-												rel="noopener noreferrer"
 												className="ml-3 text-gray-600 dark:text-gray-300 hover:text-blue-600 
 		                      dark:hover:text-blue-400 transition-colors"
 											>
 												{t('contact.contactInf.ig')}
-											</a>
+											</ExternalSiteLink>
 										</div>
 
 										<div className="flex items-center">
@@ -780,15 +830,13 @@ const Contact: React.FC = () => {
 											>
 												<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13.5 11.268h-3v-5.5c0-1.379-1.121-2.5-2.5-2.5s-2.5 1.121-2.5 2.5v5.5h-3v-10h3v1.5c.69-.69 1.79-1.5 3-1.5 2.209 0 4 1.791 4 4v6z" />
 											</svg>
-											<a
+											<ExternalSiteLink
 												href="https://www.linkedin.com/company/agencia-solware/"
-												target="_blank"
-												rel="noopener noreferrer"
 												className="ml-3 text-gray-600 dark:text-gray-300 hover:text-blue-600 
 		                      dark:hover:text-blue-400 transition-colors"
 											>
 												{t('contact.contactInf.linkedin')}
-											</a>
+											</ExternalSiteLink>
 										</div>
 									</div>
 

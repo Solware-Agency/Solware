@@ -2,6 +2,7 @@ import { memo } from 'react'
 import { Phone, Mail, Instagram, Shield, Linkedin } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { ExternalSiteLink } from './ExternalSiteLink'
 
 const Footer = memo(() => {
 	const { t } = useTranslation()
@@ -44,27 +45,23 @@ const Footer = memo(() => {
 							<Mail className="h-5 w-5" />
 						</a>
 
-						<a
+						<ExternalSiteLink
 							href="https://www.instagram.com/solware_?igsh=MTg4OTdwM3k3d2o4cA=="
-							target="_blank"
-							rel="noopener noreferrer"
 							className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 
                 transition-colors p-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-full"
-							aria-label="Seguir en Instagram"
+							aria-label="Instagram"
 						>
 							<Instagram className="h-5 w-5" />
-						</a>
+						</ExternalSiteLink>
 
-						<a
+						<ExternalSiteLink
 							href="https://www.linkedin.com/company/agencia-solware/"
-							target="_blank"
-							rel="noopener noreferrer"
 							className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 
                 transition-colors p-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-full mr-4"
-							aria-label="Seguir en LinkedIn"
+							aria-label="LinkedIn"
 						>
 							<Linkedin className="h-5 w-5" />
-						</a>
+						</ExternalSiteLink>
 					</div>
 				</div>
 			</div>

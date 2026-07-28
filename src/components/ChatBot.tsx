@@ -4,6 +4,8 @@ import { FaEnvelope, FaWhatsapp, FaInstagram, FaLinkedin } from 'react-icons/fa'
 import RobotTraking from './RobotTraking'
 import RobotTrackingChat from './RoboTrakChat'
 import { useTranslation } from 'react-i18next'
+import { ExternalSiteLink } from './ExternalSiteLink'
+import { useRequestExternalNavigate } from '../context/ExternalNavigateContext'
 
 interface Message {
 	id: number
@@ -23,6 +25,7 @@ interface ChatBotProps {
 
 const ChatBot: React.FC<ChatBotProps> = ({ isOpen, setIsOpen }) => {
 	const { t } = useTranslation()
+	const requestNavigate = useRequestExternalNavigate()
 	const botResponses = {
 		initial: {
 			text: t('chatbot.responses.initial.text'),
@@ -284,13 +287,13 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, setIsOpen }) => {
 				return // Salir para no agregar un mensaje del bot
 			} else if (option === t('chatbot.responses.contact.options.abrir_whatsapp')) {
 				const message = encodeURIComponent('Hola, me gustaría obtener más información sobre sus servicios.')
-				window.open(`https://wa.me/584129974533?text=${message}`, '_blank') // Abrir WhatsApp
+				requestNavigate(`https://wa.me/584129974533?text=${message}`) // Abrir WhatsApp
 				return // Salir para no agregar un mensaje del bot
 			} else if (option === t('chatbot.responses.contact.options.abrir_instagram')) {
-				window.open('https://www.instagram.com/solware_?igsh=MTg4OTdwM3k3d2o4cA==', '_blank') // Abrir Instagram
+				requestNavigate('https://www.instagram.com/solware_?igsh=MTg4OTdwM3k3d2o4cA==') // Abrir Instagram
 				return // Salir para no agregar un mensaje del bot
 			} else if (option === t('chatbot.responses.contact.options.abrir_linkedin')) {
-				window.open('https://www.linkedin.com/company/agencia-solware/', '_blank') // Abrir LinkedIn
+				requestNavigate('https://www.linkedin.com/company/agencia-solware/') // Abrir LinkedIn
 				return // Salir para no agregar un mensaje del bot
 			} else {
 				botResponse = handleBotResponse(option)
@@ -352,9 +355,9 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, setIsOpen }) => {
 													<div key={index} className="text-sm">
 														<span className="link">
 															{detail.icon}{' '}
-															<a href={detail.link} target="_blank" rel="noopener noreferrer">
+															<ExternalSiteLink href={detail.link} className="underline">
 																{detail.text}
-															</a>
+															</ExternalSiteLink>
 														</span>
 													</div>
 												))}

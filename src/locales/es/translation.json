@@ -1,4 +1,17 @@
 {
+  "externalLinkConfirm": {
+    "title": "Salir del sitio",
+    "description": "Se abrirá una nueva pestaña hacia un sitio externo. ¿Deseas continuar?",
+    "confirm": "Continuar",
+    "cancel": "Cancelar"
+  },
+  "cookieConsent": {
+    "title": "Cookies y analítica",
+    "description": "Utilizamos Google Tag Manager y Google Analytics con fines estadísticos. Las cookies de medición solo se cargan si das tu consentimiento. Puedes rechazarlas y el sitio seguirá funcionando con funciones esenciales.",
+    "accept": "Aceptar",
+    "reject": "Solo necesarias",
+    "privacy": "Política de privacidad"
+  },
   "header": {
     "navItems": {
       "quienesSomos": "Quiénes Somos",
@@ -6,7 +19,7 @@
       "servicios": "Soluciones",
       "soluciones": "Servicios",
       "masVendidos": "Más Vendidos",
-      "contacto": "Test"
+      "contacto": "Contacto"
     },
     "consulta": "Consulta Gratuita",
     "darkMode": "Modo Oscuro",
@@ -20,7 +33,7 @@
 
     "title": "Si tu operación depende de papel y procesos manuales, estás perdiendo dinero",
     "subtitle": "Organizamos tu operación en un solo lugar para quede dejes de perder tiempo, cometer errores y trabajar sin control.",
-    "demo": "Cómo ordenar mi operación",
+    "demo": "Casos Reales",
 
     "automation": "Menos papel",
     "efficiency": "Menos errores",

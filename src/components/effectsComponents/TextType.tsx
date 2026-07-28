@@ -69,6 +69,22 @@ const TextType = ({
   useEffect(() => {
     if (!startOnVisible || !containerRef.current) return;
 
+    const el = containerRef.current;
+
+    const tryMarkVisible = () => {
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const vw = window.innerWidth;
+      const overlapsViewport =
+        rect.bottom > 0 &&
+        rect.right > 0 &&
+        rect.top < vh &&
+        rect.left < vw &&
+        rect.width > 0 &&
+        rect.height > 0;
+      if (overlapsViewport) setIsVisible(true);
+    };
+
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
@@ -80,7 +96,9 @@ const TextType = ({
       { threshold: 0.1 }
     );
 
-    observer.observe(containerRef.current);
+    observer.observe(el);
+    requestAnimationFrame(tryMarkVisible);
+
     return () => observer.disconnect();
   }, [startOnVisible]);
 

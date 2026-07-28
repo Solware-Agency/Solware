@@ -1,4 +1,17 @@
 {
+  "externalLinkConfirm": {
+    "title": "Leave this site",
+    "description": "A new tab will open to an external website. Do you want to continue?",
+    "confirm": "Continue",
+    "cancel": "Cancel"
+  },
+  "cookieConsent": {
+    "title": "Cookies and analytics",
+    "description": "We use Google Tag Manager and Google Analytics for statistics. Measurement cookies load only if you consent. You can decline and the site will still work with essential functionality.",
+    "accept": "Accept",
+    "reject": "Essential only",
+    "privacy": "Privacy policy"
+  },
   "header": {
     "navItems": {
       "quienesSomos": "About Us",
@@ -6,7 +19,7 @@
       "servicios": "Solutions",
       "soluciones": "Services",
       "masVendidos": "Best Sellers",
-      "contacto": "Test"
+      "contacto": "Contact Us"
     },
     "consulta": "Free Consultation",
     "darkMode": "Dark Mode",

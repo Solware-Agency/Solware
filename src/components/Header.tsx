@@ -5,6 +5,7 @@ import { useDarkMode } from '../hooks/useDarkMode'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
 import LanguageDropdown from './LanguageDropdown'
+import { ExternalSiteLink } from './ExternalSiteLink'
 
 export default function Header() {
 	const { t } = useTranslation()
@@ -271,9 +272,8 @@ export default function Header() {
 								)}
 							</button>
 
-							<a
+							<ExternalSiteLink
 								href="https://calendar.app.google/EYruMbWpJwJ82gHr6"
-								target="_blank"
 								className={`px-4 sm:px-6 py-2 rounded-full text-sm sm:text-base 
                   transition-colors duration-300 whitespace-nowrap ${
 										shouldShowScrolledStyle
@@ -282,7 +282,7 @@ export default function Header() {
 									}`}
 							>
 								{t('header.consulta')}
-							</a>
+							</ExternalSiteLink>
 							<LanguageDropdown />
 						</div>
 
@@ -441,15 +441,14 @@ export default function Header() {
 							</nav>
 
 							<div className="p-4 border-t border-gray-200 dark:border-gray-800">
-								<a
+								<ExternalSiteLink
 									href="https://calendar.app.google/EYruMbWpJwJ82gHr6"
-									target="_blank"
 									className="block w-full px-4 py-3 rounded-lg text-lg font-medium text-center
                     bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-600
                     transition-colors"
 								>
 									{t('header.consulta')}
-								</a>
+								</ExternalSiteLink>
 							</div>
 						</div>
 					</div>

@@ -2,6 +2,8 @@ import React from 'react'
 import { ArrowRight } from 'lucide-react'
 import BlurText from './effectsComponents/BlurText'
 import { useTranslation } from 'react-i18next'
+import { useRequestExternalNavigate } from '../context/ExternalNavigateContext'
+import { openExternalTab } from '../lib/openExternalTab'
 
 interface CTAProps {
 	variant?: 'primary' | 'secondary'
@@ -21,6 +23,7 @@ const CTA: React.FC<CTAProps> = ({
 	onButtonClick,
 }) => {
 	const { t } = useTranslation()
+	const requestNavigate = useRequestExternalNavigate()
 
 	const handleClick = () => {
 		if (onButtonClick) {
@@ -31,8 +34,10 @@ const CTA: React.FC<CTAProps> = ({
 				if (element) {
 					element.scrollIntoView({ behavior: 'smooth' })
 				}
+			} else if (buttonLink.startsWith('http://') || buttonLink.startsWith('https://')) {
+				requestNavigate(buttonLink)
 			} else {
-				window.open(buttonLink, '_blank')
+				openExternalTab(buttonLink)
 			}
 		} else {
 			// Default: scroll to contact section
@@ -43,12 +48,19 @@ const CTA: React.FC<CTAProps> = ({
 		}
 	}
 
+	const headingId = variant === 'primary' ? 'cta-primary-heading' : 'cta-secondary-heading'
+
 	return (
-		<section className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-150 ease-in-out">
+		<section
+			className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-150 ease-in-out"
+			aria-labelledby={headingId}
+		>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="bg-white dark:bg-gray-800 rounded-2xl border border-blue-500/60 p-8 sm:p-12 shadow-[0_0_20px_rgba(59,130,246,0.15)] dark:shadow-[0_0_20px_rgba(59,130,246,0.25)] transition-all duration-150 ease-in-out">
 					<div className="text-center max-w-4xl mx-auto">
 						<BlurText
+							as="h2"
+							id={headingId}
 							text={t(titleKey)}
 							delay={150}
 							animateBy="words"

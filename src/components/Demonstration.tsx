@@ -32,6 +32,8 @@ const Demonstration = () => {
 				{/* Title Section */}
 				<div className="text-center max-w-3xl mx-auto mb-12">
 					<BlurText
+						as="h1"
+						id="demonstration-heading"
 						text={t('demonstration.title')}
 						delay={150}
 						animateBy="words"

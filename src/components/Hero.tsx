@@ -2,35 +2,44 @@ import React, { useState, useEffect } from 'react'
 import { Hourglass, Play, LayoutDashboard, BookCopy, Paintbrush } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Particles from './Particles'
-import TextType from './effectsComponents/TextType'
 import { useTranslation } from 'react-i18next'
 
 export default function Hero() {
-	const { t, i18n } = useTranslation()
+	const { t } = useTranslation()
 	const [isPreloadFinished, setIsPreloadFinished] = useState(false)
-	const [animationKey, setAnimationKey] = useState(0)
+	const [isWindowLoaded, setIsWindowLoaded] = useState(
+		typeof document !== 'undefined' && document.readyState === 'complete'
+	)
 	const [autoHoverIndex, setAutoHoverIndex] = useState(-1)
 	const [isManualHover, setIsManualHover] = useState(false)
 	const [manualHoverIndex, setManualHoverIndex] = useState(-1)
 	const [canStartAutoHover, setCanStartAutoHover] = useState(false)
 
 	useEffect(() => {
-		// Simulate preload animation ending
+		// Alineado con App: preloader ~3000 ms + transición opacity 500 ms del main
 		const preloadTimer = setTimeout(() => {
 			setIsPreloadFinished(true)
-		}, 3500) // Adjust the time to match your preload animation duration
+		}, 3500)
 
 		return () => clearTimeout(preloadTimer)
 	}, [])
 
 	useEffect(() => {
-		// Restart title animation every 15 seconds
-		const animationInterval = setInterval(() => {
-			setAnimationKey(prev => prev + 1)
-		}, 15000) // 15 seconds
-
-		return () => clearInterval(animationInterval)
+		if (typeof document === 'undefined') return
+		if (document.readyState === 'complete') {
+			setIsWindowLoaded(true)
+			return
+		}
+		const onLoad = () => setIsWindowLoaded(true)
+		window.addEventListener('load', onLoad)
+		return () => window.removeEventListener('load', onLoad)
 	}, [])
+
+	useEffect(() => {
+		if (isPreloadFinished && isWindowLoaded) {
+			setCanStartAutoHover(true)
+		}
+	}, [isPreloadFinished, isWindowLoaded])
 
 	// Auto hover animation effect
 	useEffect(() => {
@@ -63,7 +72,7 @@ export default function Hero() {
 	}
 
 	return (
-		<div className="relative min-h-[100svh] flex items-center" id="inicio">
+		<div className="relative min-h-[100svh] flex items-center" id="inicio" aria-labelledby="hero-heading">
 			{/* Background with gradient overlay and animated particles */}
 			<div className="absolute inset-0 bg-gradient-to-br from-blue-600/90 to-purple-600/90 dark:from-indigo-900/90 dark:to-purple-900/90 overflow-hidden">
 				<div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:32px_32px]" />
@@ -77,16 +86,9 @@ export default function Hero() {
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 					<div className="text-center lg:text-left">
 						<div className="min-h-[120px] sm:min-h-[140px] lg:min-h-[180px] xl:min-h-[220px] flex items-start">
-							<TextType
-								key={`hero-title-${i18n.language}-${animationKey}`} // Fuerza re-render cuando cambia el idioma o la animación
-								text={t('hero.title')}
-								typingSpeed={50}
-								className="revealed text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white dark:text-blue-100 \
-	              mb-1 sm:mb-1.5 lg:mb-2 animate-fade-in leading-tight sm:leading-tight w-full"
-								startOnVisible={isPreloadFinished}
-								loop={true}
-								onSentenceComplete={() => setCanStartAutoHover(true)}
-							/>
+							<h1 id="hero-heading" className="revealed text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white dark:text-blue-100 mb-1 sm:mb-1.5 lg:mb-2 animate-fade-in leading-tight sm:leading-tight w-full">
+								{t('hero.title')}
+							</h1>
 						</div>
 
 						<p
@@ -167,11 +169,11 @@ export default function Hero() {
 														}`,
 													})}
 												</div>
-												<h3 className={`text-sm font-medium text-white dark:text-blue-100 mb-1 transition-all duration-300 ${
+												<p className={`text-sm font-medium text-white dark:text-blue-100 mb-1 transition-all duration-300 ${
 													isActiveHover ? 'font-semibold' : ''
 												}`}>
 													{stat.title}
-												</h3>
+												</p>
 												<p className={`text-xs text-white/80 dark:text-blue-200/80 transition-all duration-300 ${
 													isActiveHover ? 'text-white font-medium' : ''
 												}`}>
@@ -301,7 +303,7 @@ export default function Hero() {
 													}`,
 												})}
 											</div>
-											<h3
+											<p
 												className={`text-base sm:text-lg font-medium text-white dark:text-blue-100 mb-1 
                       transition-colors duration-300 ${
 													isActiveHover ? 
@@ -310,7 +312,7 @@ export default function Hero() {
 												}`}
 											>
 												{stat.title}
-											</h3>
+											</p>
 											<p
 												className={`text-sm sm:text-base text-white/80 dark:text-blue-200/80 
                       transition-colors duration-300 ${

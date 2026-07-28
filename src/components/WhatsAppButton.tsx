@@ -1,23 +1,25 @@
 import { memo, useCallback, useState, useEffect } from 'react';
 import { Instagram, Linkedin } from 'lucide-react';
+import { useRequestExternalNavigate } from '../context/ExternalNavigateContext';
 
 const WhatsAppButton = memo(() => {
+  const requestNavigate = useRequestExternalNavigate();
   const [isAutoHover, setIsAutoHover] = useState(false);
   const [isAutoHoverExit, setIsAutoHoverExit] = useState(false);
   const [isManualHover, setIsManualHover] = useState(false);
 
   const openWhatsApp = useCallback(() => {
   const message = encodeURIComponent('Hola, me gustaría obtener más información sobre sus servicios.');
-    window.open(`https://wa.me/584129974533?text=${message}`, '_blank');
-  }, []);
+    requestNavigate(`https://wa.me/584129974533?text=${message}`);
+  }, [requestNavigate]);
 
   const openInstagram = useCallback(() => {
-    window.open('https://instagram.com/solware_', '_blank');
-  }, []);
+    requestNavigate('https://instagram.com/solware_');
+  }, [requestNavigate]);
 
   const openLinkedIn = useCallback(() => {
-    window.open('https://www.linkedin.com/company/agencia-solware', '_blank');
-  }, []);
+    requestNavigate('https://www.linkedin.com/company/agencia-solware');
+  }, [requestNavigate]);
 
   // Auto hover effect cada 10 segundos
   useEffect(() => {

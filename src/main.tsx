@@ -6,6 +6,10 @@ import NotFound from './components/NotFound'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import Demonstration from './components/Demonstration'
 import ServicesPage from './components/ServicesPage'
+import { ExternalNavigateProvider } from './context/ExternalNavigateContext'
+import CookieConsentBanner from './components/CookieConsentBanner'
+import VercelAnalyticsGate from './components/VercelAnalyticsGate'
+import ErrorBoundary from './components/ErrorBoundary'
 import './index.css'
 import './i18n'
 
@@ -33,14 +37,20 @@ const root = createRoot(rootElement)
 
 root.render(
   <StrictMode>
-    <BrowserRouter {...routerOptions}>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/demo" element={<Demonstration />} />
-        <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter {...routerOptions}>
+        <ExternalNavigateProvider>
+          <CookieConsentBanner />
+          <VercelAnalyticsGate />
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/demo" element={<Demonstration />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ExternalNavigateProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   </StrictMode>,
 )

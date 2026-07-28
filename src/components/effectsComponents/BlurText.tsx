@@ -1,5 +1,13 @@
 import { motion, Transition } from 'framer-motion'
-import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
+import {
+	createElement,
+	useEffect,
+	useRef,
+	useState,
+	useMemo,
+	useCallback,
+	type ElementType,
+} from 'react'
 
 type BlurTextProps = {
 	text?: string
@@ -14,9 +22,11 @@ type BlurTextProps = {
 	easing?: (t: number) => number
 	onAnimationComplete?: () => void
 	stepDuration?: number
+	/** Etiqueta semántica del título (p. ej. h2 en secciones). Por defecto p. */
+	as?: ElementType
+	id?: string
 }
 
-// Memoizar la función de construcción de keyframes
 const buildKeyframes = (
 	from: Record<string, string | number>,
 	steps: Array<Record<string, string | number>>,
@@ -43,11 +53,12 @@ const BlurText: React.FC<BlurTextProps> = ({
 	easing = (t) => t,
 	onAnimationComplete,
 	stepDuration = 0.35,
+	as: Component = 'p',
+	id,
 }) => {
 	const [inView, setInView] = useState(false)
-	const ref = useRef<HTMLParagraphElement>(null)
+	const ref = useRef<HTMLElement>(null)
 
-	// Memoizar valores por defecto
 	const defaultFrom = useMemo(() => {
 		return direction === 'top'
 			? { filter: 'blur(10px)', opacity: 0, y: -50 }
@@ -68,24 +79,20 @@ const BlurText: React.FC<BlurTextProps> = ({
 	const fromSnapshot = animationFrom ?? defaultFrom
 	const toSnapshots = animationTo ?? defaultTo
 
-	// Memoizar elementos
 	const elements = useMemo(() => {
 		return animateBy === 'words' ? text.split(' ') : text.split('')
 	}, [text, animateBy])
 
-	// Memoizar valores de animación
 	const stepCount = toSnapshots.length + 1
 	const totalDuration = stepDuration * (stepCount - 1)
 	const times = useMemo(() => {
 		return Array.from({ length: stepCount }, (_, i) => (stepCount === 1 ? 0 : i / (stepCount - 1)))
 	}, [stepCount])
 
-	// Memoizar keyframes para evitar recálculos
 	const animateKeyframes = useMemo(() => {
 		return buildKeyframes(fromSnapshot, toSnapshots)
 	}, [fromSnapshot, toSnapshots])
 
-	// Callback memoizado para intersection observer
 	const handleIntersection = useCallback(([entry]: IntersectionObserverEntry[]) => {
 		if (entry.isIntersecting) {
 			setInView(true)
@@ -95,55 +102,58 @@ const BlurText: React.FC<BlurTextProps> = ({
 		}
 	}, [])
 
-	// Crear observer una sola vez
 	const observer = useMemo(() => {
 		return new IntersectionObserver(handleIntersection, { threshold, rootMargin })
 	}, [handleIntersection, threshold, rootMargin])
 
 	useEffect(() => {
 		if (!ref.current) return
-		
+
 		observer.observe(ref.current)
-		
+
 		return () => {
 			observer.disconnect()
 		}
 	}, [observer])
 
-	// Memoizar el callback de animación completa
 	const handleAnimationComplete = useCallback(() => {
 		onAnimationComplete?.()
 	}, [onAnimationComplete])
 
-	return (
-		<p ref={ref} className={`blur-text ${className} flex flex-wrap justify-center`}>
-			{elements.map((segment, index) => {
-				// Precalcular transition para cada elemento
-				const spanTransition: Transition = {
-					duration: totalDuration,
-					times,
-					delay: (index * delay) / 1000,
-					ease: easing,
-				}
+	const content = elements.map((segment, index) => {
+		const spanTransition: Transition = {
+			duration: totalDuration,
+			times,
+			delay: (index * delay) / 1000,
+			ease: easing,
+		}
 
-				return (
-					<motion.span
-						key={`${segment}-${index}`} // Key más específico para mejor reconciliación
-						initial={fromSnapshot}
-						animate={inView ? animateKeyframes : fromSnapshot}
-						transition={spanTransition}
-						onAnimationComplete={index === elements.length - 1 ? handleAnimationComplete : undefined}
-						style={{
-							display: 'inline-block',
-							willChange: inView ? 'transform, filter, opacity' : 'auto', // Optimización de willChange
-						}}
-					>
-						{segment === ' ' ? '\u00A0' : segment}
-						{animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
-					</motion.span>
-				)
-			})}
-		</p>
+		return (
+			<motion.span
+				key={`${segment}-${index}`}
+				initial={fromSnapshot}
+				animate={inView ? animateKeyframes : fromSnapshot}
+				transition={spanTransition}
+				onAnimationComplete={index === elements.length - 1 ? handleAnimationComplete : undefined}
+				style={{
+					display: 'inline-block',
+					willChange: inView ? 'transform, filter, opacity' : 'auto',
+				}}
+			>
+				{segment === ' ' ? '\u00A0' : segment}
+				{animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
+			</motion.span>
+		)
+	})
+
+	return createElement(
+		Component,
+		{
+			ref,
+			id,
+			className: `blur-text ${className} flex flex-wrap justify-center`,
+		},
+		content,
 	)
 }
 

@@ -1,6 +1,7 @@
 import { Lightbulb, Target, Rocket } from 'lucide-react'
 import BlurText from './effectsComponents/BlurText'
 import { useTranslation } from 'react-i18next'
+import { ExternalSiteLink } from './ExternalSiteLink'
 import { useState, useEffect } from 'react'
 
 // Función helper para resaltar palabras clave en negrita
@@ -91,6 +92,7 @@ const AboutUs = () => {
 	return (
 		<section
 			id="quienes-somos"
+			aria-labelledby="about-heading"
 			className="relative pt-20 pb-0 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 text-justify overflow-hidden transition-colors duration-300"
 		>
 			{/* Partículas de fondo sutiles */}
@@ -103,6 +105,8 @@ const AboutUs = () => {
 			<div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="text-center mb-16">
 					<BlurText
+						as="h2"
+						id="about-heading"
 						text={t('about.title')}
 						delay={150}
 						animateBy="words"
@@ -283,6 +287,8 @@ const AboutUs = () => {
 						{/* Título principal con efectos especiales */}
 						<div className="relative mb-16">
 							<BlurText
+								as="h3"
+								id="about-recognition-heading"
 								text={t('recognition.sectionTitle')}
 								delay={150}
 								animateBy="words"
@@ -314,9 +320,9 @@ const AboutUs = () => {
 												<path d="M6 9H4.5a1 1 0 0 1 0-5H6"/>
 											</svg>
 										</div>
-										   <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+										   <h4 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
 											{t('recognition.title')}
-										</h3>
+										</h4>
 									</div>
 									
 									   <p className="text-xl md:text-2xl text-purple-700 dark:text-purple-300 font-semibold mb-4 leading-relaxed">
@@ -345,7 +351,7 @@ const AboutUs = () => {
 
 							{/* Logo del IESA con efectos especiales */}
 							   <div className="flex justify-center">
-								   <a href="https://www.iesa.edu.ve" target="_blank" rel="noopener noreferrer" className="relative group focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full">
+								   <ExternalSiteLink href="https://www.iesa.edu.ve" className="relative group focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full">
 									   {/* Círculos concéntricos animados */}
 									   <div className="absolute inset-0 rounded-full border-4 border-blue-600/30 dark:border-blue-400/30 animate-ping"></div>
 									   <div className="absolute inset-2 rounded-full border-2 border-purple-600/40 dark:border-purple-400/40 animate-pulse"></div>
@@ -363,7 +369,7 @@ const AboutUs = () => {
 									   <div className="absolute -top-4 -right-4 w-8 h-8 bg-blue-600 dark:bg-blue-400 rounded-full animate-bounce-delayed opacity-80"></div>
 									   <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-purple-600 dark:bg-purple-400 rounded-full animate-bounce opacity-70"></div>
 									   <div className="absolute top-1/2 -right-8 w-4 h-4 bg-pink-600 dark:bg-pink-400 rounded-full animate-float-fast opacity-60"></div>
-								   </a>
+								   </ExternalSiteLink>
 							   </div>
 						</div>
 

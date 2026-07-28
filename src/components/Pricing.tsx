@@ -161,7 +161,7 @@ export default function Pricing() {
 	]
 
 	return (
-		<section id="pricing" className="py-20 bg-white dark:bg-gray-900">
+		<section id="pricing" className="py-20 bg-white dark:bg-gray-900" aria-labelledby="pricing-heading">
 			<style>{`
 				@keyframes rotate-infinite {
 					from {
@@ -177,6 +177,8 @@ export default function Pricing() {
 			`}</style>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 				<BlurText
+					as="h2"
+					id="pricing-heading"
 					text={t("pricing.title")}
 					delay={150}
 					animateBy="words"

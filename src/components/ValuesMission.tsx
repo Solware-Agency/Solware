@@ -86,10 +86,12 @@ const ValuesMission: React.FC = () => {
 	]
 
 	return (
-		<section className="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
+		<section className="py-24 bg-white dark:bg-gray-900 transition-colors duration-300" aria-labelledby="values-mission-heading">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="text-center max-w-3xl mx-auto mb-16">
 					<BlurText
+						as="h2"
+						id="values-mission-heading"
 						text={t('valuesMission.title')}
 						delay={150}
 						animateBy="words"

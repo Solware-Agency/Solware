@@ -81,7 +81,7 @@ const PreloaderBinary = memo(() => {
       `}</style>
 			{particles.map((particle) => (
 				<div
-					key={`${particle.id}-${Date.now()}`}
+					key={particle.id}
 					className="binary-particle"
 					style={{
 						left: `${particle.left}%`,
@@ -105,16 +105,21 @@ const Preloader = memo(() => {
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setIsLoading(false)
-			document.body.style.overflow = 'auto'
 		}, 3000)
 
 		document.body.style.overflow = 'hidden'
 
 		return () => {
 			clearTimeout(timer)
-			document.body.style.overflow = 'auto'
+			document.body.style.overflow = ''
 		}
 	}, [])
+
+	useEffect(() => {
+		if (!isLoading) {
+			document.body.style.overflow = ''
+		}
+	}, [isLoading])
 
 	if (!isLoading) return null
 

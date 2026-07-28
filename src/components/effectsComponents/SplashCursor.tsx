@@ -76,8 +76,9 @@ function SplashCursor({
 
 	useEffect(() => {
 		const canvas = canvasRef.current
-		if (!canvas) return // Guard canvas early
+		if (!canvas) return
 
+		try {
 		// Pointer and config setup
 		let pointers: Pointer[] = [pointerPrototype()]
 
@@ -128,7 +129,8 @@ function SplashCursor({
 			}
 
 			if (!gl) {
-				throw new Error('Unable to initialize WebGL.')
+				console.warn('SplashCursor: WebGL no disponible')
+				return { gl: null, ext: null }
 			}
 
 			const isWebGL2 = 'drawBuffers' in gl
@@ -1296,6 +1298,9 @@ function SplashCursor({
 			}
 		})
 		// ------------------------------------------------------------
+		} catch (err) {
+			console.warn('SplashCursor: no se pudo inicializar', err)
+		}
 	}, [
 		SIM_RESOLUTION,
 		DYE_RESOLUTION,

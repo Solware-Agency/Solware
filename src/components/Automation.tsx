@@ -37,10 +37,12 @@ const Automation = () => {
     }
   ];
   return (
-    <section className="py-24 bg-white dark:bg-gray-900 transition-colors duration-300\" id="automatizacion">
+    <section className="py-24 bg-white dark:bg-gray-900 transition-colors duration-300" id="automatizacion" aria-labelledby="automation-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto mb-16">
           <BlurText
+            as="h2"
+            id="automation-heading"
             text={t("automation.title")}
             delay={150}
             animateBy="words"
