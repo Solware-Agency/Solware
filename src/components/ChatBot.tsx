@@ -75,8 +75,8 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, setIsOpen }) => {
 		{ icon: <FaEnvelope />, text: 'ventas@solware.agency', link: 'mailto:ventas@solware.agency' },
 		{
 			icon: <FaWhatsapp />,
-			text: '+58 412-9974533',
-			link: 'https://api.whatsapp.com/send/?phone=584129974533&text=Hola%2C+me+gustar%C3%ADa+obtener+m%C3%A1s+informaci%C3%B3n+sobre+sus+servicios.&type=phone_number&app_absent=0',
+			text: '+58 422-6379644',
+			link: 'https://api.whatsapp.com/send/?phone=584226379644&text=Hola%2C+me+gustar%C3%ADa+obtener+m%C3%A1s+informaci%C3%B3n+sobre+sus+servicios.&type=phone_number&app_absent=0',
 		},
 		{ icon: <FaInstagram />, text: '@solware_', link: 'https://www.instagram.com/solware_?igsh=MTg4OTdwM3k3d2o4cA==' },
 		{ icon: <FaLinkedin />, text: 'Agencia', link: 'https://www.linkedin.com/company/agencia-solware/' },
@@ -287,7 +287,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, setIsOpen }) => {
 				return // Salir para no agregar un mensaje del bot
 			} else if (option === t('chatbot.responses.contact.options.abrir_whatsapp')) {
 				const message = encodeURIComponent('Hola, me gustaría obtener más información sobre sus servicios.')
-				requestNavigate(`https://wa.me/584129974533?text=${message}`) // Abrir WhatsApp
+				requestNavigate(`https://wa.me/584226379644?text=${message}`) // Abrir WhatsApp
 				return // Salir para no agregar un mensaje del bot
 			} else if (option === t('chatbot.responses.contact.options.abrir_instagram')) {
 				requestNavigate('https://www.instagram.com/solware_?igsh=MTg4OTdwM3k3d2o4cA==') // Abrir Instagram

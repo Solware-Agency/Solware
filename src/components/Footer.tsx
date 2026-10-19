@@ -28,7 +28,7 @@ const Footer = memo(() => {
 
 					<div className="flex items-center gap-4 justify-center">
 						<a
-							href="tel:+584129974533"
+							href="tel:+584226379644"
 							className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 
                 transition-colors p-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-full"
 							aria-label="Llamar"

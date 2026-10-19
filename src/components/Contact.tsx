@@ -434,7 +434,7 @@ const Contact: React.FC = () => {
 
 	const openWhatsApp = useCallback(() => {
 		const message = encodeURIComponent(t('contact.form.whatsapp.message'))
-		requestNavigate(`https://wa.me/584129974533?text=${message}`)
+		requestNavigate(`https://wa.me/584226379644?text=${message}`)
 	}, [t, requestNavigate])
 
 	const handleFaqClick = useCallback((index: number) => {
@@ -802,11 +802,11 @@ const Contact: React.FC = () => {
 										<div className="flex items-center">
 											<Phone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
 											<a
-												href="tel:+584129974533"
+												href="tel:+584226379644"
 												className="ml-3 text-gray-600 dark:text-gray-300 hover:text-blue-600 
 		                      dark:hover:text-blue-400 transition-colors"
 											>
-												+58 412-9974533
+												+58 422-6379644
 											</a>
 										</div>
 

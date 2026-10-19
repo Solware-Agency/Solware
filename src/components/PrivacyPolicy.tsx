@@ -112,10 +112,10 @@ const PrivacyPolicy: React.FC = () => {
                 <li>
                   <span className="font-medium">{t('privacyPolicy.contact.phone')}:</span>{' '}
                   <a 
-                    href="tel:+584129974533"
+                    href="tel:+584226379644"
                     className="text-blue-600 dark:text-blue-400 hover:underline"
                   >
-                    +58 412-9974533
+                    +58 422-6379644
                   </a>
                 </li>
               </ul>
